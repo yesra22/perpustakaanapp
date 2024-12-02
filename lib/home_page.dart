@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'insert.dart';
 
 class BookListPage extends StatefulWidget {
   const BookListPage({super.key});
@@ -27,59 +28,73 @@ class _BookListPageState extends State<BookListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Daftar Buku'),
-          actions: [
-            IconButton(onPressed: fetchBooks, icon: const Icon(Icons.refresh))
-          ],
-        ),
-        body: Buku.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView.builder(
-                itemCount: Buku.length,
-                itemBuilder: (context, index) {
-                  final book = Buku[index];
-                  return ListTile(
-                    title: Text(
-                      book['Judul'] ?? 'No',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      children: [
-                        Text(
-                          book['Penulis'] ?? 'No Penulis',
-                          style: const TextStyle(
-                              fontSize: 14, fontStyle: FontStyle.italic),
-                        ),
-                        Text(
-                          book['Deskripsi'] ?? 'No Deskripsi',
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            )),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ))
-                      ],
-                    ),
-                  );
-                }));
+      appBar: AppBar(
+        title: const Text('Daftar Buku'),
+        actions: [
+          IconButton(onPressed: fetchBooks, icon: const Icon(Icons.refresh))
+        ],
+      ),
+      body: Buku.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: Buku.length,
+              itemBuilder: (context, index) {
+                final book = Buku[index];
+                return ListTile(
+                  title: Text(
+                    book['Judul'] ?? 'No',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      Text(
+                        book['Penulis'] ?? 'No Penulis',
+                        style: const TextStyle(
+                            fontSize: 14, fontStyle: FontStyle.italic),
+                      ),
+                      Text(
+                        book['Deskripsi'] ?? 'No Deskripsi',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ))
+                    ],
+                  ),
+                );
+              }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigasi ke halaman untuk menambah buku baru
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddBookPage(),
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFFC8B560), // Cream-based button
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
